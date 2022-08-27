@@ -1,21 +1,28 @@
 const router = require('express').Router();
-const { Gallery, Painting } = require('../models');
+const { User } = require('../models');
+
+router.get("/login", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("login");
+});
 
 // GET all galleries for homepage
 router.get('/', async (req, res) => {
   try {
-    const dbGalleryData = await Gallery.findAll({
-      include: [
-        {
-          model: Painting,
-          attributes: ['filename', 'description'],
-        },
-      ],
+    const userData = await User.findAll({
+      raw: true,
+      // include: [
+      //   {
+      //     model: Painting,
+      //     attributes: ['filename', 'description'],
+      //   },
+      // ],
     });
 
-    const galleries = dbGalleryData.map((gallery) =>
-      gallery.get({ plain: true })
-    );
 
     req.session.save(() => {
       // We set up a session variable to count the number of times we visit the homepage
@@ -27,8 +34,8 @@ router.get('/', async (req, res) => {
         req.session.countVisit = 1;
       }
 
-      res.render('homepage', {
-        galleries,
+      res.render("homepage", {
+        userData,
         // We send over the current 'countVisit' session variable to be rendered
         countVisit: req.session.countVisit,
       });
@@ -39,28 +46,28 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET one gallery
-router.get('/gallery/:id', async (req, res) => {
+// GET one user
+router.get('/user/:id', async (req, res) => {
   try {
-    const dbGalleryData = await Gallery.findByPk(req.params.id, {
-      include: [
-        {
-          model: Painting,
-          attributes: [
-            'id',
-            'title',
-            'artist',
-            'exhibition_date',
-            'filename',
-            'description',
-          ],
-        },
-      ],
+    const userData = await Gallery.findByPk(req.params.id, {
+      raw: true,
+      // include: [
+      //   {
+      //     model: Painting,
+      //     attributes: [
+      //       'id',
+      //       'title',
+      //       'artist',
+      //       'exhibition_date',
+      //       'filename',
+      //       'description',
+      //     ],
+      //   },
+      // ],
     });
 
-    const gallery = dbGalleryData.get({ plain: true });
-    res.render('gallery', {
-      gallery,
+    res.render("gallery", {
+      userData,
       // We are not incrementing the 'countVisit' session variable here
       // but simply sending over the current 'countVisit' session variable to be rendered
       countVisit: req.session.countVisit,
