@@ -49,19 +49,19 @@ aside {
   color: var(--light);
 }
 
-nav {
+#main-nav {
   display: flex;
   background-color: var(--secondary);
 }
 
-nav a {
+#main-nav a {
   color: var(--light);
   padding: 14px 20px;
   text-decoration: none;
   text-align: center;
 }
 
-nav a:hover {
+#main-nav a:hover {
   color: var(--secondary);
   background-color: var(--dark);
 }
@@ -168,3 +168,4 @@ img {
   flex-flow: row wrap;
   justify-content: center;
 }
+
