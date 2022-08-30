@@ -1,0 +1,25 @@
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px 0px 7px 7px;
+  padding: 20px;
+}
+
+.nav-tabs {
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link.active {
+  text-decoration: none;
+  color: rgb(47, 150, 0);
+}
+
+.nav-tabs .nav-link {
+  text-decoration: none;
+  color: rgb(2, 2, 2);
+}
+
+.form-floating > label {
+  padding: 0;
+}
