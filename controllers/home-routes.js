@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET one user
-router.get('/user/:id', async (req, res) => {
+router.get('/profile/:id', async (req, res) => {
   try {
     const userData = await Gallery.findByPk(req.params.id, {
       raw: true,

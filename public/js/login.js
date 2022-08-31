@@ -12,13 +12,11 @@ const loginFormHandler = async (event) => {
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },
     });
-
     if (response.ok) {
       // If successful, redirect the browser to the profile page
-      document.location.replace("/profile");
+      document.location.replace(`/profile`);
     } else {
-      console.log(response)
-      alert("Incorrect email or password. Please try again!");
+      alert(response.statusText);
     }
   }
 };
@@ -40,7 +38,7 @@ const signupFormHandler = async (event) => {
     if (response.ok) {
       document.location.replace("/profile");
     } else {
-      alert("User already exists. Please try again!");
+      alert(response.statusText);
     }
   }
 };
