@@ -3,8 +3,10 @@ const emailEl = document.getElementById("profile-email");
 const githubEl = document.getElementById("profile-github");
 const slackEl = document.getElementById("profile-slack");
 const buttonEl = document.getElementById("profile-buttons");
-const editIcon = document.getElementById('edit-profile')
+const editIcon = document.getElementById("edit-profile");
 const bioEl = document.getElementById("profile-bio");
+const imageEl = document.getElementById("profile-pic");
+const uploadEl = document.getElementById("image-upload");
 
 let name, email, github, slack, bio;
 
@@ -16,7 +18,7 @@ const enableEdit = () => {
     input.classList.toggle("form-control");
   });
   buttonEl.removeAttribute("hidden");
-  editIcon.setAttribute('hidden', true)
+  editIcon.setAttribute("hidden", true);
   // bioEl.style.resize = 'both'
 };
 
@@ -27,9 +29,8 @@ const disableEdit = () => {
     input.classList.toggle("form-control");
   });
   buttonEl.setAttribute("hidden", true);
-  editIcon.removeAttribute('hidden')
+  editIcon.removeAttribute("hidden");
   // bioEl.style.resize = "none";
-
 };
 
 const profileEditHandler = async (event) => {
@@ -41,14 +42,14 @@ const profileEditHandler = async (event) => {
   slack = slackEl.value.trim();
   bio = bioEl.value.trim();
   const id = window.location.pathname.split("/")[2];
-  console.log(id)
+  console.log(id);
   const response = await fetch(`/api/users/${id}`, {
     method: "PUT",
     body: JSON.stringify({ name, email, github, slack, bio }),
     headers: { "Content-Type": "application/json" },
   });
-  
-  disableEdit()
+
+  disableEdit();
 };
 
 const enableEditHandler = async (event) => {
@@ -71,8 +72,25 @@ const cancelEditHandler = async (event) => {
   slackEl.value = slack;
   bioEl.value = bio;
 
-  disableEdit()
+  disableEdit();
 };
+
+const previewProfileImage = (uploader) => {
+  //ensure a file was selected
+  if (uploader.files && uploader.files[0]) {
+    var imageFile = uploader.files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      //set the image data as source
+      imageEl.setAttribute("src", e.target.result)
+      console.log({imageEl})
+    };
+    reader.readAsDataURL(imageFile);
+  }
+}
+
+imageEl.addEventListener("click", () => uploadEl.click());
+uploadEl.addEventListener("change", () => previewProfileImage(uploadEl));
 
 document
   .getElementById("profile-form")
