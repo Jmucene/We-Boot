@@ -35,6 +35,18 @@ User.init(
         len: [8],
       },
     },
+    github: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    slack: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    }
   },
   {
     hooks: {
