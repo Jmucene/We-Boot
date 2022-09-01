@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
 
     req.session.save(() => {
       req.session.loggedIn = true;
-
+      req.session.userId = dbUserData.id;
       res.status(200).json(dbUserData);
     });
   } catch (err) {
@@ -20,6 +20,19 @@ router.post('/', async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.put('/:id', async (req, res) => {
+  try {
+    const dbUserData = await User.findByPk(req.params.id);
+    const updatedUserData = await dbUserData.update(req.body);
+    console.log('dbUserData', dbUserData);
+    console.log('updatedUserData', updatedUserData);
+    res.status(200).json(updatedUserData);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
 
 // Login
 router.post('/login', async (req, res) => {
@@ -49,6 +62,7 @@ router.post('/login', async (req, res) => {
 
     req.session.save(() => {
       req.session.loggedIn = true;
+      req.session.userId = dbUserData.id;
       res
         .status(200)
         .json({ user: dbUserData, message: 'You are now logged in!' });

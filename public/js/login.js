@@ -14,9 +14,11 @@ const loginFormHandler = async (event) => {
     });
     if (response.ok) {
       // If successful, redirect the browser to the profile page
-      document.location.replace(`/profile`);
+      const data = await response.json()
+      const id = data.user.id;
+      document.location.replace(`/profile/${id}`);
     } else {
-      alert(response.statusText);
+      alert("Incorrect email or password. Please try again!");
     }
   }
 };
@@ -36,9 +38,11 @@ const signupFormHandler = async (event) => {
     });
 
     if (response.ok) {
-      document.location.replace("/profile");
+      const data = await response.json();
+      const id = data.id;
+      document.location.replace(`/profile/${id}`);
     } else {
-      alert(response.statusText);
+      alert("User already exists. Please try again!");
     }
   }
 };

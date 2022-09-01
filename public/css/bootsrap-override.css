@@ -20,6 +20,46 @@
   color: rgb(2, 2, 2);
 }
 
-.form-floating > label {
+/* .form-floating > label {
   padding: 0;
+} */
+
+.profile-label{
+  width:75px
+}
+
+.form-edit{
+  justify-content: end;
+}
+
+.profile-input{
+  border-bottom: 1px solid #ced4da;
+  width: 300px;
+  transition: .2s all ease-in-out;
+}
+
+#profile-buttons{
+  transition: 2s all ease-in-out;
+  margin-left: 60px
+}
+#profile-buttons button{
+  width: 150px
+}
+
+#profile-bio{
+  width: 700px;
+  height: 200px;
+  resize: none;
+}
+
+#profile-bio:disabled{
+  border-bottom: #ced4da;
+}
+
+.col-form-label{
+  width: 75px;
+}
+
+i{
+  transition: .2s all ease-in-out;
 }

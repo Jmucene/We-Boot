@@ -7,4 +7,7 @@ module.exports = {
       new Date(date).getFullYear() + 5
     }`;
   },
+  check_id: (profileId, userId) => {
+    return profileId === userId;
+  }
 };
