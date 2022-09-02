@@ -85,16 +85,16 @@ aside {
 }
 
 /* LAYOUT */
-.row {
+ /* .row {
   margin-left: 200px;
-}
+} */
 
-.container {
+/* .container {
   display: flex;
   flex-flow: column wrap;
   align-content: flex-start;
   align-items: center;
-}
+}  */
 
 
 .profile-label{
@@ -139,6 +139,7 @@ i{
 
 #profile-pic{
   cursor: pointer;
+  width: 250px
 }
 
 #image-upload{
