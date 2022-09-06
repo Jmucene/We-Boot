@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User } = require("../../models");
+const fs = require("fs");
 
 // CREATE new user
 router.post("/", async (req, res) => {
@@ -82,5 +83,17 @@ router.post("/logout", (req, res) => {
     res.status(404).end();
   }
 });
+
+router.post('/image/:id', (req, res) => {
+  const id = req.params.id;
+  const image = req.body.newImg
+  const data = image.data.replace(/^data:image\/(.+);base64,/, "");
+  const type = image.type;
+  fs.writeFile(`./public/images/uploads/profile-${id}.jpg`, data, 'base64', (err) => {
+    if (err) {
+      console.log(err)
+    }
+  })
+ })
 
 module.exports = router;

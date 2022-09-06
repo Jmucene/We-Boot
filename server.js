@@ -32,8 +32,8 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 //middleware for parsing JSON and urlencoded form data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 //makes public directory available
 app.use(express.static(path.join(__dirname, 'public')));

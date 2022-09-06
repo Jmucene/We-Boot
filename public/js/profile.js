@@ -7,8 +7,9 @@ const editIcon = document.getElementById("edit-profile");
 const bioEl = document.getElementById("profile-bio");
 const imageEl = document.getElementById("profile-pic");
 const uploadEl = document.getElementById("image-upload");
+const uploadBtns = document.getElementById("upload-btns");
 
-let name, email, github, slack, bio;
+let name, email, github, slack, bio, originalImg, newImg
 
 const enableEdit = () => {
   document.querySelectorAll(".profile-input").forEach((input) => {
@@ -71,24 +72,49 @@ const cancelEditHandler = async (event) => {
   githubEl.value = github;
   slackEl.value = slack;
   bioEl.value = bio;
-
+  
   disableEdit();
 };
 
 const previewProfileImage = (uploader) => {
   //ensure a file was selected
   if (uploader.files && uploader.files[0]) {
-    var imageFile = uploader.files[0];
-    var reader = new FileReader();
+    originalImg = imageEl.getAttribute("src");
+    const imageFile = uploader.files[0];
+    const type = imageFile.type.split("/")[1];
+    console.log({ imageFile });
+    let reader = new FileReader();
     reader.onload = function (e) {
       //set the image data as source
-      imageEl.setAttribute("src", e.target.result)
-      console.log({imageEl})
+      imageEl.setAttribute("src", e.target.result);
+      newImg = {data: e.target.result, type};
+      console.log("newImg", newImg);
     };
     reader.readAsDataURL(imageFile);
+    uploadBtns.removeAttribute("hidden");
   }
+};
+
+const profilePicHandler = async (event) => { 
+  event.preventDefault();
+  uploadBtns.setAttribute("hidden", true);
+
+  const action = event.target.textContent
+  if (action === "Cancel") {
+    imageEl.setAttribute("src", originalImg);
+    uploadBtns.setAttribute("hidden", true);
+    return
+  }
+  const id = window.location.pathname.split("/")[2];
+  const response = await fetch(`/api/users/image/${id}`, {
+    method: "POST",
+    body: JSON.stringify({ newImg }),
+    headers: { "Content-Type": "application/json" },
+  })
 }
 
+
+uploadBtns.addEventListener("click", profilePicHandler);
 imageEl.addEventListener("click", () => uploadEl.click());
 uploadEl.addEventListener("change", () => previewProfileImage(uploadEl));
 

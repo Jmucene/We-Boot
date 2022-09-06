@@ -5,15 +5,19 @@
   >
     <div class="row w-100">
       <div class="col-3">
-        <img id='profile-pic' class="rounded m-2" src="https://via.placeholder.com/250" alt="" />
+        <img id='profile-pic' class="rounded mx-3 mb-3" onerror="this.onerror=null; this.src='https://via.placeholder.com/250'" src='/images/uploads/profile-{{id}}.jpg' alt="" />
         <input id="image-upload" type="file" 
        name="profile_photo" placeholder="Photo" required="" capture>
+       <div id='upload-btns' class="mx-auto w-50" hidden>
+       <button class="btn btn-success" id="img-save">Save</button>
+       <button class="btn btn-danger" id="img-cancel">Cancel</button>
+       </div>
       </div>
-      <div class="col mt-2">
+      <div class="col-8 mt-2">
         <form id="profile-form" class="container align-items-start">
 
           <div class="row mb-3">
-            <label class="col col-form-label" for="profile-name"><b>Name: </b></label>
+            <label class="col-2 col-form-label" for="profile-name"><b>Name: </b></label>
             <div class="col">
             <input
               type="text"
@@ -27,7 +31,7 @@
             </div>
 
             <div class="row mb-3">
-              <label class="col col-form-label" for="profile-class"><b>Class: </b></label>
+              <label class="col-2 col-form-label" for="profile-class"><b>Class: </b></label>
               <div class="col">
               <input
                 type="text"
@@ -41,7 +45,7 @@
             </div>
 
             <div class="row mb-3">
-              <label class="col col-form-label" for="profile-email"><b>Email: </b></label>
+              <label class="col-2 col-form-label" for="profile-email"><b>Email: </b></label>
               <div class="col">
               <input
                 type="text"
@@ -55,7 +59,7 @@
             </div>
 
             <div class="row mb-3">
-              <label class="col col-form-label" for="profile-github"><b>Github: </b></label>
+              <label class="col-2 col-form-label" for="profile-github"><b>Github: </b></label>
               <div class="col">
               <input
                 type="text"
@@ -69,7 +73,7 @@
             </div>
 
             <div class="row mb-3">
-              <label class="col col-form-label" for="profile-slack"><b>Slack: </b></label>
+              <label class="col-2 col-form-label" for="profile-slack"><b>Slack: </b></label>
               <div class="col">
               <input
                 type="text"
@@ -83,7 +87,7 @@
             </div>
 
             <div class="row mb-3">
-              <label class="col col-form-label" for="profile-bio"><b>Bio: </b></label>
+              <label class="col-2 col-form-label" for="profile-bio"><b>Bio: </b></label>
               <div class="col">
               <textarea
                 type="textarea"
