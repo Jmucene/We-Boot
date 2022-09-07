@@ -8,19 +8,50 @@ const octokit = new Octokit({
 
 require("dotenv").config();
 //our rate limit for these requests with octokit is either 1,000/hour or 5,000/hour, I'm honestly not sure
+//Get a backup API key as well for presentation day
 
-//const github = require("octokat")({ token: process.env.GitHub_Key });
+//TO DO: write a function that grabs the github username from a random (or specified, for profile pages) registered user
+let name = "MustyBraid";
 
-//return github
-
-let username = "MustyBraid"; //this will come from a sequelize query, obviously
-
-async function main() {
-  const events = await octokit.request("GET /users/{username}/events/public", {
-    username: username,
-  });
-  console.log(events);
-  return events;
+function contributionFilter(event) {
+  if (
+    event.type == "PullRequestReviewEvent" ||
+    "PushEvent" ||
+    "ReleaseEvent" ||
+    "CreateEvent"
+  ) {
+    return true;
+  }
+  return false;
 }
 
-main();
+//TO DO: finish this function
+function uniqueFilter(event) {
+  let urls = []; //this will be an array of unique lists
+  let goodEvents = []; //this will be an array of the event objects containing those unique lists, so we can pull more data from them
+  for (let i = 0; i < event.length; i++) {
+    //find unique urls, append them to the urls array, and append the corresponding objects at index i to the goodEvents array
+    //It's just now occurring to me that we can probably just take the first goodEvent for the main page,
+    //but this code will be necessary for the profile page implementation
+  }
+  return urls, goodEvents;
+}
+
+const request = async () => {
+  let { data: publicEvents } = await octokit.request(
+    "GET /users/{username}/events/public",
+    {
+      username: name,
+      per_page: 10,
+    }
+  );
+  publicEvents = publicEvents.filter(contributionFilter);
+  //call the uniqueFilter function on the publicEvents array
+  console.log(publicEvents);
+  return publicEvents;
+};
+
+request();
+
+//TO DO: append the results from request to an array, and write those values into the html.
+//This will need logic to make sure we get at least 5 unique repositories, we may need to make calls for more than 5 users to do this
