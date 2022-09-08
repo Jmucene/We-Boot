@@ -1,0 +1,147 @@
+:root {
+  --primary: #000;
+  --secondary: #80DEEA;
+  --tertiary: #8a9597;
+  --quatrinary: #6c6b67;
+  --light: #e3e4e3;
+  --dark: #182c23;
+  --error: rgb(228, 46, 1);
+  --border-radius: 0.3rem;
+}
+
+body {
+  font-family: Arial;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-start;
+  background-color: var(--primary);
+}
+
+header {
+  height: 50vh;
+  height: var(--heading-height);
+  padding: 40px;
+  text-align: center;
+  color: white;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+#main-nav {
+  display: flex;
+  background-image: linear-gradient(to bottom left,#62f9e5,#26C6DA);
+}
+
+#main-nav a {
+  color: var(--light);
+  padding: 14px 20px;
+  text-decoration: none;
+  text-align: center;
+}
+
+#main-nav a:hover {
+  background-color: #168c9c;
+}
+
+aside {
+  flex: 0;
+  background-color: var(--tertiary);
+  padding: 80px;
+  text-align: left;
+  color: var(--light);
+}
+
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px 0px 7px 7px;
+  padding: 20px;
+}
+
+.nav-tabs {
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link.active {
+  text-decoration: none;
+  color: #26C6DA;
+}
+
+.nav-tabs .nav-link {
+  text-decoration: none;
+  color:#26C6DA;
+}
+
+.form-floating > label {
+  padding: 0;
+  margin-left: 100px;
+}
+
+/* LAYOUT */
+ /* .row {
+  margin-left: 200px;
+} */
+
+/* .container {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  align-items: center;
+}  */
+
+
+.profile-label{
+  width:75px
+}
+
+.form-edit{
+  justify-content: end;
+}
+
+.profile-input{
+  border-bottom: 1px solid #ced4da;
+  width: 300px;
+  transition: .2s all ease-in-out;
+}
+
+#profile-buttons{
+  transition: 2s all ease-in-out;
+  margin-left: 60px
+}
+#profile-buttons button{
+  width: 150px
+}
+
+#profile-bio{
+  width: 700px;
+  height: 200px;
+  resize: none;
+}
+
+#profile-bio:disabled{
+  border-bottom: #ced4da;
+}
+
+.col-form-label{
+  width: 75px;
+}
+
+i{
+  transition: .2s all ease-in-out;
+}
+
+#profile-pic{
+  cursor: pointer;
+  width: 250px
+}
+
+#image-upload{
+  display: none;
+}

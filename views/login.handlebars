@@ -1,0 +1,125 @@
+  <div class="container flex-column align-content-center justify-content-center w-50">
+  
+  <div class="row">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="login-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#login-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="login-tab-pane"
+          aria-selected="true"
+        >
+          <h2>
+            Login
+          </h2>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="signup-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#signup-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="signup-tab-pane"
+          aria-selected="false"
+        >
+          <h2>
+            Signup
+          </h2>
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="login-form tab-pane fade show active"
+        id="login-tab-pane"
+        role="tabpanel"
+        aria-labelledby="login-tab"
+        tabindex="0"
+      >
+      <form id="login-form">
+          <div class=" form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="email-login"
+              placeholder="name@example.com"
+            />
+            <label for="email-login">
+              Email address:
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="password-login"
+              placeholder="Password"
+            />
+            <label for="password-login">
+              Password:
+            </label>
+          </div>
+          <button class="btn btn-primary" type="submit">
+                Login
+              </button>
+      </div>
+      </form>
+      <div
+        class="tab-pane fade signup-form"
+        id="signup-tab-pane"
+        role="tabpanel"
+        aria-labelledby="signup-tab"
+        tabindex="0"
+      >
+      <form id="signup-form">
+
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="name-signup"
+              placeholder="Your Name"
+            />
+            <label for="name-signup">
+              Name:
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="email-signup"
+              placeholder="name@example.com"
+            />
+            <label for="enail-signup">
+              Email address:
+            </label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="password-signup"
+              placeholder="Password"
+            />
+            <label for="password-signup">
+              Password:
+            </label>
+          </div>
+          <button class="btn btn-primary" type="submit">
+                Signup
+              </button>
+      </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="./js/login.js"></script>
