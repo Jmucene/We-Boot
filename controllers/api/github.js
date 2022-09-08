@@ -25,16 +25,19 @@ function contributionFilter(event) {
   return false;
 }
 
-//TO DO: finish this function
 function uniqueFilter(event) {
-  let urls = []; //this will be an array of unique lists
+  let urls = []; //this will be an array of unique urls
   let goodEvents = []; //this will be an array of the event objects containing those unique lists, so we can pull more data from them
   for (let i = 0; i < event.length; i++) {
+    if (!urls.includes(event[i].repo.url)) {
+      urls.push(event[i].repo.url);
+      goodEvents.push(event[i]);
+    }
     //find unique urls, append them to the urls array, and append the corresponding objects at index i to the goodEvents array
     //It's just now occurring to me that we can probably just take the first goodEvent for the main page,
     //but this code will be necessary for the profile page implementation
   }
-  return urls, goodEvents;
+  return [urls, goodEvents];
 }
 
 const request = async () => {
@@ -46,8 +49,8 @@ const request = async () => {
     }
   );
   publicEvents = publicEvents.filter(contributionFilter);
-  //call the uniqueFilter function on the publicEvents array
-  console.log(publicEvents);
+  publicEvents = uniqueFilter(publicEvents);
+  console.log(publicEvents[0]); //This is a little weird, but just use index 0 or 1 to choose what we want to interact with.
   return publicEvents;
 };
 
