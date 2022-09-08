@@ -1,3 +1,5 @@
+
 DROP DATABASE IF EXISTS weboot;
 
 CREATE DATABASE weboot;
+
