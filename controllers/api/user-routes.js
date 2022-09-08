@@ -3,6 +3,13 @@ const { User } = require("../../models");
 const fs = require("fs");
 
 // CREATE new user
+
+router.get('/', async (req, res) => {
+  const users = await User.findAll();
+  console.log('users', users)
+  res.json(users);
+})
+
 router.post("/", async (req, res) => {
   try {
     const dbUserData = await User.create({
