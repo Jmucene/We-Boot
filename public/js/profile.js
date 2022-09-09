@@ -7,11 +7,10 @@ const editIcon = $("#edit-icon");
 const bioEl = $("#profile-bio");
 const imageEl = $("#profile-pic");
 const uploadBtns = $("#upload-btns");
-// const linkedinEl = $("#profile-linkedin");
 const createEl = $("#create-post");
 
 let uploadEl = $("#image-upload");
-let name, email, github, slack, linkedin, bio, originalImg, newImg;
+let name, email, github, slack, bio, originalImg, newImg;
 
 const enableEdit = () => {
   $(".profile-input").each(function (i) {
@@ -43,12 +42,11 @@ const profileEditHandler = async (event) => {
   github = githubEl.val().trim();
   slack = slackEl.val().trim();
   bio = bioEl.val().trim();
-  // linkedin = linkedinEl.val().trim();
   const id = window.location.pathname.split("/")[2];
   console.log(id);
   const response = await fetch(`/api/users/${id}`, {
     method: "PUT",
-    body: JSON.stringify({ name, email, github, slack, linkedin, bio }),
+    body: JSON.stringify({ name, email, github, slack, bio }),
     headers: { "Content-Type": "application/json" },
   });
 
@@ -63,7 +61,6 @@ const enableEditHandler = async (event) => {
   github = githubEl.val().trim();
   slack = slackEl.val().trim();
   bio = bioEl.val().trim();
-  // linkedin = linkedinEl.val().trim();
 
   enableEdit();
 };
@@ -75,7 +72,6 @@ const cancelEditHandler = async (event) => {
   githubEl.val(github);
   slackEl.val(slack);
   bioEl.val(bio);
-  // linkedinEl.val(linkedin);
 
   disableEdit();
 };
