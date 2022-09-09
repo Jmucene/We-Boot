@@ -175,3 +175,9 @@ i{
 .card-body{
   overflow-y: scroll
 }
+
+.prof-hover{
+  transition: 0.2s all ease-in-out;
+  cursor: pointer;
+  opacity: 0.75;
+}

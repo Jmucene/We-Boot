@@ -4,7 +4,7 @@
   >
     <div class="row w-100">
       <div class="col-3">
-        <img id='profile-pic' class="rounded mx-3 mb-3" onerror="this.onerror=null; this.src='https://via.placeholder.com/250'" src='/images/uploads/profile-{{id}}.jpg' alt="" />
+        <img id='profile-pic' class="rounded mx-3 mb-3" onerror="this.onerror=null; this.src='https://via.placeholder.com/250'" src='/images/uploads/profile-{{id}}.jpg' data-logged-in="{{userId}}" alt="" />
         <input id="image-upload" type="file" 
        name="profile_photo" placeholder="Photo" required="" capture>
        <div id='upload-btns' class="mx-auto w-50" hidden>
@@ -66,6 +66,20 @@
                 id="profile-github"
                 placeholder="Github Username"
                 value="{{github}}"
+                disabled
+              />
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-2 col-form-label" for="profile-linkedin"><b>LinkedIn: </b></label>
+              <div class="col">
+              <input
+                type="text"
+                class="form-control-plaintext profile-input"
+                id="profile-linkedin"
+                placeholder="LinkedIn Username"
+                value="{{linkedin}}"
                 disabled
               />
               </div>

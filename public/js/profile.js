@@ -75,7 +75,7 @@ const cancelEditHandler = async (event) => {
   githubEl.val(github);
   slackEl.val(slack);
   bioEl.val(bio);
-  linkedinEl.val(linkedin);
+  // linkedinEl.val(linkedin);
 
   disableEdit();
 };
@@ -123,17 +123,17 @@ const profilePicHandler = async (event) => {
 const hoverIn = (event) => {
   const target = $(event.target);
   console.log(target.data());
-  console.log("hover");
+  // console.log("hover");
   const profileId = Number(window.location.pathname.split("/")[2]);
   const userId = Number(target.data("loggedIn"));
   console.log("profileId", profileId, "userId", userId);
   if (profileId === userId) {
-    $(".profile-pic").addClass("hover");
+    imageEl.addClass("prof-hover");
   }
 };
 
 const hoverOut = (event) => {
-  $(".profile-pic").removeClass("hover");
+  imageEl.removeClass("prof-hover");
 };
 
 const createPostHandler = async (event) => {};

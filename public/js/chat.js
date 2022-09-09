@@ -4,36 +4,35 @@ const pusher = new Pusher("0be76b4b2c146e8cd31b", {
 
 console.log(pusher);
 
-$("#chat-toggle").click(async (e) => {
-  e.preventDefault();
-  const tgt = $(e.target);
-  const userId = tgt.data("id");
-  console.log("userId", userId);
+const showChat = async (e) => { 
+    e.preventDefault();
+    const tgt = $(e.target);
+    const userId = tgt.data("id");
+    console.log("userId", userId);
 
-  let channel = pusher.subscribe(`We-Boot`);
-  console.log("subscribed");
-  channel.bind(`chat-${userId}`, function (data) {
-    console.log("data", data);
-  });
-  console.log("channel", channel);
-  const res = await fetch(`/api/users`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const users = await res.json();
-  console.log("users", users);
-  $(".dropdown-menu").empty();
-  users.forEach((user) => {
-    $(".dropdown-menu").append(
-      `<a class="dropdown-item" href="#">${user.name}<small class='text-muted'>#${user.id}</small></a>`
-    );
-  });
-});
+    let channel = pusher.subscribe(`We-Boot`);
+    console.log("subscribed");
+    channel.bind(`chat-${userId}`, function (data) {
+      console.log("data", data);
+    });
+    console.log("channel", channel);
+    const res = await fetch(`/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const users = await res.json();
+    console.log("users", users);
+    $(".dropdown-menu").empty();
+    users.forEach((user) => {
+      $(".dropdown-menu").append(
+        `<a class="dropdown-item" data-id=${user.id} href="#">${user.name}</a>`
+      );
+    });
+}
 
-$("#send-message").click((e) => {
-  e.preventDefault();
+const sendMessage = async (e) => {e.preventDefault();
   const tgt = $(e.target);
   // const userId =
   const message = $("#chat-message").val();
@@ -59,4 +58,30 @@ $("#send-message").click((e) => {
   );
   // pusher.trigger('We-Boot', `chat-${userId}`, message)
   $("#chat-message").val("");
-});
+  const chat = $('.card-body').html();
+  console.log("chat", chat);
+  const res = await fetch(`/api/chat`, {
+    method: "POST",
+    body: JSON.stringify({ chat }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+const changePartner = async (e) => {
+  const partnerId = $(e.target).data("id");
+  console.log("partnerId", partnerId);
+  const res = await fetch(`/api/chat/${partnerId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const chat = await res.json();
+  console.log("chat", chat);
+ }
+
+$('.dropdown-menu').on('click', 'a', changePartner);
+$("#chat-toggle").click(showChat);
+$("#send-message").click(sendMessage)
