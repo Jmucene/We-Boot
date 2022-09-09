@@ -4,6 +4,12 @@ const pusher = new Pusher("0be76b4b2c146e8cd31b", {
 
 console.log(pusher);
 
+const updateScroll = () => { 
+  const chatBody = $(".card-body")
+  chatBody.scrollTop(chatBody.prop("scrollHeight"));
+  
+}
+
 const showChat = async (e) => { 
     e.preventDefault();
     const tgt = $(e.target);
@@ -22,18 +28,21 @@ const showChat = async (e) => {
         "Content-Type": "application/json",
       },
     });
-    const users = await res.json();
-    console.log("users", users);
+  let users = await res.json();
+  users = users.filter((user) => user.id !== userId);
     $(".dropdown-menu").empty();
     users.forEach((user) => {
       $(".dropdown-menu").append(
         `<a class="dropdown-item" data-id=${user.id} href="#">${user.name}</a>`
       );
     });
+  updateScroll();
 }
 
 const sendMessage = async (e) => {e.preventDefault();
   const tgt = $(e.target);
+  const partnerId = tgt.data("partnerid");
+  console.log("partnerId", partnerId);
   // const userId =
   const message = $("#chat-message").val();
   console.log("message", message);
@@ -56,17 +65,18 @@ const sendMessage = async (e) => {e.preventDefault();
       />
     </div>`
   );
-  // pusher.trigger('We-Boot', `chat-${userId}`, message)
+  updateScroll();
   $("#chat-message").val("");
   const chat = $('.card-body').html();
   console.log("chat", chat);
-  const res = await fetch(`/api/chat`, {
-    method: "POST",
-    body: JSON.stringify({ chat }),
+  const res = await fetch(`/api/chat/${partnerId}`, {
+    method: "put",
+    body: JSON.stringify({ chat, partnerId }),
     headers: {
       "Content-Type": "application/json",
     },
   });
+
 }
 
 const changePartner = async (e) => {
@@ -78,8 +88,12 @@ const changePartner = async (e) => {
       "Content-Type": "application/json",
     },
   });
-  const chat = await res.json();
-  console.log("chat", chat);
+  const chatData = await res.json();
+  console.log("chat", chatData[0].chat);
+
+  $(".card-body").empty();
+  $(".card-body").append(chatData[0].chat);
+  $("#send-message").data('partnerId', partnerId);
  }
 
 $('.dropdown-menu').on('click', 'a', changePartner);

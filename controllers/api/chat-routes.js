@@ -11,7 +11,7 @@ const pusher = new Pusher({
 });
 
 router.get("/:partnerId", async (req, res) => { 
-  const partnerId = req.params.partnerId;
+  const partnerId = Number(req.params.partnerId)
   const userId = req.session.userId;
   console.log("partnerId", partnerId, "userId", userId);
   const chat = await Chat.findAll({
@@ -20,24 +20,35 @@ router.get("/:partnerId", async (req, res) => {
       partner_id: partnerId,
     },
   });
+  console.log('chat', chat);
   res.json(chat);
 })
 
 
 router.post('/:id', (req, res) => { 
   const id = req.params.id;
-  const message = req.body
-  console.log('message', message, 'id', id)
-
-  pusher.trigger('We-Boot', `chat-${id}`, message)
-  res.send(message)
+  const {chat, partnerId} = req.body
+  console.log('chat', chat, 'id', id)
+  
+  // pusher.trigger('We-Boot', `chat-${id}`, chat)
+  res.send(chat)
 })
 
-router.put('/:id', async (req, res) => {
-  const partnerId = req.params.id;
-  const userId = req.session.user_id;
-  const chat = req.body;
-})
+router.put("/:partnerId", async (req, res) => {
+  const userId = req.session.userId;
+  const { chat, partnerId } = req.body;
+
+  console.log("chat", chat.length, "userId", userId, "partnerId", partnerId);
+  Chat.update(chat, { where: { user_id: userId, partner_id: partnerId } });
+  const newChat = await Chat.findAll({
+    where: {
+      user_id: userId,
+      partner_id: partnerId,
+    },
+  });
+  console.log("newChat", newChat);
+  res.json(chat);
+});
  
 
 module.exports = router;
