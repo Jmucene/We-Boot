@@ -34,18 +34,18 @@ function uniqueFilter(event) {
   return [urls, goodEvents];
 }
 
-const singleGithubReq = async (username) => {
+const githubRequest = async (username, number) => {
   let { data: publicEvents } = await octokit.request(
     "GET /users/{username}/events/public",
     {
       username: username,
-      per_page: 10, //Change this variable to change how many events we're requesting from any one user before filtering
+      per_page: number, //Change this variable to change how many events we're requesting from any one user before filtering
     }
   );
   publicEvents = publicEvents.filter(contributionFilter);
   publicEvents = uniqueFilter(publicEvents);
-  console.log(publicEvents); //This is a little weird, but just use index 0 or 1 to choose what we want to interact with.
+  console.log(publicEvents); //note that this is a length 2 array defined in uniqueFilter
   return publicEvents;
 };
 
-module.exports(singleGithubReq);
+module.exports = githubRequest;
