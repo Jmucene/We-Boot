@@ -23,6 +23,8 @@
     "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
     "mysql2": "^2.2.5",
+    "pusher": "^5.1.1-beta",
+    "pusher-js": "^7.4.0",
     "sequelize": "^6.3.5"
   }
 }

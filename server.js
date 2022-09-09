@@ -3,10 +3,12 @@ const express = require('express');
 // Import express-session
 const session = require('express-session');
 const exphbs = require('express-handlebars');
-
+const Pusher = require("pusher");
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const helpers = require('./utils/helpers');
+
+
 
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -32,7 +34,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 //middleware for parsing JSON and urlencoded form data
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 //makes public directory available
