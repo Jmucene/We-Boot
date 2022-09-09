@@ -85,16 +85,16 @@ aside {
 }
 
 /* LAYOUT */
-.row {
+ /* .row {
   margin-left: 200px;
-}
+} */
 
-.container {
+/* .container {
   display: flex;
   flex-flow: column wrap;
   align-content: flex-start;
   align-items: center;
-}
+}  */
 
 
 .profile-label{
@@ -139,8 +139,45 @@ i{
 
 #profile-pic{
   cursor: pointer;
+  width: 250px
 }
 
 #image-upload{
   display: none;
+}
+
+#chat-toggle{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
+  z-index: 100;
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+}
+
+.bi-chat-text-fill{
+  font-size: 2em
+}
+
+#chatbox{
+  position: fixed;
+  bottom: 5em;
+  right: 0;
+  margin: 20px;
+  margin-bottom: 10px;
+  z-index: 100;
+  transition: .2s all ease-in-out;
+
+}
+
+.card-body{
+  overflow-y: scroll
+}
+
+.prof-hover{
+  transition: 0.2s all ease-in-out;
+  cursor: pointer;
+  opacity: 0.75;
 }

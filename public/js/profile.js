@@ -1,51 +1,54 @@
-const nameEl = document.getElementById("profile-name");
-const emailEl = document.getElementById("profile-email");
-const githubEl = document.getElementById("profile-github");
-const slackEl = document.getElementById("profile-slack");
-const buttonEl = document.getElementById("profile-buttons");
-const editIcon = document.getElementById("edit-profile");
-const bioEl = document.getElementById("profile-bio");
-const imageEl = document.getElementById("profile-pic");
-const uploadEl = document.getElementById("image-upload");
+const nameEl = $("#profile-name"); //document.getElementById("profile-name");
+const emailEl = $("#profile-email");
+const githubEl = $("#profile-github");
+const slackEl = $("#profile-slack");
+const buttonEl = $("#profile-buttons");
+const editIcon = $("#edit-icon");
+const bioEl = $("#profile-bio");
+const imageEl = $("#profile-pic");
+const uploadBtns = $("#upload-btns");
+// const linkedinEl = $("#profile-linkedin");
+const createEl = $("#create-post");
 
-let name, email, github, slack, bio;
+let uploadEl = $("#image-upload");
+let name, email, github, slack, linkedin, bio, originalImg, newImg;
 
 const enableEdit = () => {
-  document.querySelectorAll(".profile-input").forEach((input) => {
-    input.removeAttribute("disabled");
-
-    input.classList.toggle("form-control-plaintext");
-    input.classList.toggle("form-control");
+  $(".profile-input").each(function (i) {
+    const input = $(this);
+    input.prop("disabled", false);
+    input.toggleClass("form-control-plaintext");
+    input.toggleClass("form-control");
   });
-  buttonEl.removeAttribute("hidden");
-  editIcon.setAttribute("hidden", true);
-  // bioEl.style.resize = 'both'
+  buttonEl.prop("hidden", false);
+  editIcon.prop("hidden", true);
 };
 
 const disableEdit = () => {
-  document.querySelectorAll(".profile-input").forEach((input) => {
-    input.setAttribute("disabled", true);
-    input.classList.toggle("form-control-plaintext");
-    input.classList.toggle("form-control");
+  $(".profile-input").each(function (i) {
+    const input = $(this);
+    input.prop("disabled", true);
+    input.toggleClass("form-control-plaintext");
+    input.toggleClass("form-control");
   });
-  buttonEl.setAttribute("hidden", true);
-  editIcon.removeAttribute("hidden");
-  // bioEl.style.resize = "none";
+  buttonEl.prop("hidden", true);
+  editIcon.prop("hidden", false);
 };
 
 const profileEditHandler = async (event) => {
   event.preventDefault();
   console.log("event", event);
-  name = nameEl.value.trim();
-  email = emailEl.value.trim();
-  github = githubEl.value.trim();
-  slack = slackEl.value.trim();
-  bio = bioEl.value.trim();
+  name = nameEl.val().trim();
+  email = emailEl.val().trim();
+  github = githubEl.val().trim();
+  slack = slackEl.val().trim();
+  bio = bioEl.val().trim();
+  // linkedin = linkedinEl.val().trim();
   const id = window.location.pathname.split("/")[2];
   console.log(id);
   const response = await fetch(`/api/users/${id}`, {
     method: "PUT",
-    body: JSON.stringify({ name, email, github, slack, bio }),
+    body: JSON.stringify({ name, email, github, slack, linkedin, bio }),
     headers: { "Content-Type": "application/json" },
   });
 
@@ -55,49 +58,93 @@ const profileEditHandler = async (event) => {
 const enableEditHandler = async (event) => {
   event.preventDefault();
   console.log("event", event);
-  name = nameEl.value.trim();
-  email = emailEl.value.trim();
-  github = githubEl.value.trim();
-  slack = slackEl.value.trim();
-  bio = bioEl.value.trim();
+  name = nameEl.val().trim();
+  email = emailEl.val().trim();
+  github = githubEl.val().trim();
+  slack = slackEl.val().trim();
+  bio = bioEl.val().trim();
+  // linkedin = linkedinEl.val().trim();
 
   enableEdit();
 };
 
 const cancelEditHandler = async (event) => {
   event.preventDefault();
-  nameEl.value = name;
-  emailEl.value = email;
-  githubEl.value = github;
-  slackEl.value = slack;
-  bioEl.value = bio;
+  nameEl.val(name);
+  emailEl.val(email);
+  githubEl.val(github);
+  slackEl.val(slack);
+  bioEl.val(bio);
+  // linkedinEl.val(linkedin);
 
   disableEdit();
 };
 
-const previewProfileImage = (uploader) => {
+const previewProfileImage = () => {
   //ensure a file was selected
+  const uploader = uploadEl.get()[0];
   if (uploader.files && uploader.files[0]) {
-    var imageFile = uploader.files[0];
-    var reader = new FileReader();
+    originalImg = imageEl.attr("src");
+    const imageFile = uploader.files[0];
+    const type = imageFile.type.split("/")[1];
+    let reader = new FileReader();
     reader.onload = function (e) {
       //set the image data as source
-      imageEl.setAttribute("src", e.target.result)
-      console.log({imageEl})
+      imageEl.attr("src", e.target.result);
+      newImg = { data: e.target.result, type };
+      console.log("newImg", newImg);
     };
     reader.readAsDataURL(imageFile);
+    uploadBtns.prop("hidden", false);
   }
-}
+};
 
-imageEl.addEventListener("click", () => uploadEl.click());
-uploadEl.addEventListener("change", () => previewProfileImage(uploadEl));
+const profilePicHandler = async (event) => {
+  event.preventDefault();
+  const action = event.target.textContent;
+  uploadBtns.prop("hidden", true);
+  console.log("action", action);
+  if (action === "Cancel") {
+    console.log("originalImg", originalImg);
+    imageEl.attr("src", originalImg);
+    uploadBtns.prop("hidden", true);
+    uploadEl.replaceWith(uploadEl.val("").clone());
+    uploadEl = $("#image-upload").on("change", () => previewProfileImage());
+    return;
+  }
+  const id = window.location.pathname.split("/")[2];
+  const response = await fetch(`/api/users/image/${id}`, {
+    method: "POST",
+    body: JSON.stringify({ newImg }),
+    headers: { "Content-Type": "application/json" },
+  });
+};
 
-document
-  .getElementById("profile-form")
-  .addEventListener("submit", profileEditHandler);
-document
-  .getElementById("edit-profile")
-  .addEventListener("click", enableEditHandler);
-document
-  .getElementById("cancel-profile")
-  .addEventListener("click", cancelEditHandler);
+const hoverIn = (event) => {
+  const target = $(event.target);
+  console.log(target.data());
+  // console.log("hover");
+  const profileId = Number(window.location.pathname.split("/")[2]);
+  const userId = Number(target.data("loggedIn"));
+  console.log("profileId", profileId, "userId", userId);
+  if (profileId === userId) {
+    imageEl.addClass("prof-hover");
+  }
+};
+
+const hoverOut = (event) => {
+  imageEl.removeClass("prof-hover");
+};
+
+const createPostHandler = async (event) => {};
+
+uploadBtns.on("click", profilePicHandler);
+imageEl.on("click", () => uploadEl.click());
+uploadEl.on("change", () => previewProfileImage());
+
+$("#profile-form").on("submit", profileEditHandler);
+editIcon.on("click", enableEditHandler);
+$("#cancel-profile").on("click", cancelEditHandler);
+$("#create-post").on("click", createPostHandler);
+
+imageEl.hover(hoverIn, hoverOut);
