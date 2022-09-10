@@ -1,11 +1,9 @@
 <div class="container w-50 flex-column justify-content-center align-items-center">
 
 <ul>
-  <li></li>
-  <li></li>
-  <li></li>
-  <li></li>
-  <li></li>
+  {{#each .}}
+  <li>{{list}}</li>
+  {{/each}}
 </ul>
 
 {{#each users as |user|}}
