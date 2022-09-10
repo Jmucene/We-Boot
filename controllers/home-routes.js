@@ -30,6 +30,7 @@ router.get("/", async (req, res) => {
       }
       res.render("homepage", {
         userData,
+        userId: req.session.userId,
         loggedIn: req.session.loggedIn,
         countVisit: req.session.countVisit,
         githubList,
