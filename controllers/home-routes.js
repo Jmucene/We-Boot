@@ -11,7 +11,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/*", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const userData = await User.findAll({
       raw: true,
