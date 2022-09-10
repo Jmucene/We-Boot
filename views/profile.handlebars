@@ -1,100 +1,6 @@
 {{#with userData}}
-
-{{!SIDE TOOLBAR
-<a class="btn" id="tools" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-  aria-controls="offcanvasExample">
-  TOOLS
-</a>
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">TOOLS</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="dropdown mt-3">
-      <ul class="list">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-      </ul>
-    </div>
-  </div>
-</div>!}}
-
-{{!PROFILE!}}
-<div id="prof-container" class="container h-65 m-3 p-3 bg-light align-items-center rounded">
-  <div class="row w-100">
-
-    {{!IMAGE!}}
-    <div class="col">
-      <img id='profile-pic' class="rounded" onerror="this.onerror=null; this.src='https://via.placeholder.com/250'"
-        src='/images/uploads/profile-{{id}}.jpg' alt="" />
-      <input id="image-upload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
-      <div id='upload-btns' class="mx-auto w-50" hidden>
-        <button class="btn btn-success" id="img-save">Save</button>
-        <button class="btn btn-danger" id="img-cancel">Cancel</button>
-      </div>
-    </div>
-
-    <div class="col-9">
-      {{!NAME!}}
-      <div class="col-3">
-        <label class="col-2 col-form-label" for="profile-name"><b>Name: </b></label>
-        <input type="text" class="form-control-plaintext profile-input" id="profile-name" placeholder="Enter name"
-          value="{{name}}" disabled />
-
-        {{!CLASS!}}
-        <div class="col-3">
-          <label class=" col-2 col-form-label" for="profile-class"><b>Class: </b></label>
-          <input type="text" class="form-control-plaintext profile-input" id="profile-class"
-            placeholder="Class Attended" value="{{class}}" disabled />
-
-          {{!EMAIL!}}
-          <div class="col-2">
-            <label class="col-2 col-form-label" for="profile-email"><b>Email: </b></label>
-            <div class="col">
-              <input type="text" class="form-control-plaintext profile-input" id="profile-email"
-                placeholder="Enter email" value="{{email}}" disabled />
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label class="col-2 col-form-label" for="profile-github"><b>Github: </b></label>
-            <div class="col">
-              <input type="text" class="form-control-plaintext profile-input" id="profile-github"
-                placeholder="Github Username" value="{{github}}" disabled />
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label class="col-2 col-form-label" for="profile-slack"><b>Slack: </b></label>
-            <div class="col">
-              <input type="text" class="form-control-plaintext profile-input" id="profile-slack"
-                placeholder="Slack Username" value="{{slack}}" disabled />
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label class="col-2 col-form-label" for="profile-bio"><b>Bio: </b></label>
-            <div class="col">
-              <textarea type="textarea" class="form-control-plaintext profile-input" id="profile-bio"
-                placeholder="Tell us about yourself!" disabled>{{bio}}</textarea>
-            </div>
-          </div>
-
-
-          <div id='profile-buttons' class="row" hidden>
-            <button type="submit" class="col btn btn-success m-3">Apply</button>
-            <button id="cancel-profile" class='col btn btn-danger m-3'>Cancel</button>
-          </div>
-        </div>
-
-
-        </form>
-      </div>
-    </div>
-    {{/with}}
+  {{>profile userId=../userId}}
+{{/with}}
 
     {{!EDIT ICON!}}
     <div class="col" id="edit">
@@ -105,20 +11,6 @@
         {{/if}}
       </div>
     </div>
-
-      {{!-- <div>
-          {{!Cringe github list!}}
-          <ul class="githubList">
-            <li> {{githubList}} </li>
-
-            {{#each githubList}}
-            <li>{{url}}</li>
-            {{/each}}
-            <script src="/js/profile.js"></script>
-          </ul>
-          <h1>SANITY CHECK</h1>
-      </div> --}}
-
   </div>
 
 </div>

@@ -11,7 +11,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/", async (req, res) => {
+router.get("/*", async (req, res) => {
   try {
     const userData = await User.findAll({
       raw: true,
@@ -30,6 +30,7 @@ router.get("/", async (req, res) => {
       }
       res.render("homepage", {
         userData,
+        userId: req.session.userId,
         loggedIn: req.session.loggedIn,
         countVisit: req.session.countVisit,
         githubList,

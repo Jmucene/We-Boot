@@ -16,21 +16,52 @@
   <link rel="stylesheet" href="/css/bootsrap-override.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+
+  <body>
+    <header>
+      <h1>
+        We Boot
+      </h1>
+    </header>
+    <nav id="main-nav">
+      <a href="/">
+        Home
+      </a>
+      {{#if loggedIn}}
+      <a href="/profile/{{userId}}">Profile</a>
+        <button id="logout" class="btn-no-style">
+          Logout
+        </button>
+      {{else}}
+        <a href="/login">
+          Login
+        </a>
+      {{/if}}
+    </nav>
+    <main>
+      {{! <div class=""> }}
+      {{{body}}}
+      {{! </div> }}
+    </main>
+=======
 </head>
 
-<body>
-  <header>
-    <h1>
-      We Boot
-    </h1>
-  </header>
-  <nav id="main-nav">
-    <a href="/">
-      Home
-    </a>
-    {{#if loggedIn}}
-    <button id="logout" class="btn-no-style">
-      Logout
+
+      <div id="chatbox" class="collapse">
+        {{>chat userData=userData userId=userId}}
+      </div>
+    <button
+      id="chat-toggle"
+      class="btn btn-primary"
+      type="button"
+      data-id={{userId}}
+      data-bs-toggle="collapse"
+      data-bs-target="#chatbox"
+      aria-expanded="false"
+      aria-controls="chatbox"
+    >
+      <i class="bi bi-chat-text-fill" data-id={{userId}}></i>
+
     </button>
     {{else}}
     <a href="/login">
