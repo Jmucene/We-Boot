@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const { User } = require('../models');
+const router = require("express").Router();
+const gitRequest = require("../utils/github.js");
+const { User } = require("../models");
 
 router.get("/login", (req, res) => {
   if (req.session.logged_in) {
@@ -10,14 +11,16 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const userData = await User.findAll({
       raw: true,
-      attributes: { exclude: ['password'] },
-      order: [['name', 'ASC']],
+      attributes: { exclude: ["password"] },
+      order: [["name", "ASC"]],
     });
 
+    githubList = await gitRequest.homepageList(8);
+    githubList = { list: githubList };
     console.log("userData", userData);
     req.session.save(() => {
       if (req.session.countVisit) {
@@ -29,6 +32,7 @@ router.get('/', async (req, res) => {
         userData,
         loggedIn: req.session.loggedIn,
         countVisit: req.session.countVisit,
+        githubList,
       });
     });
   } catch (err) {
@@ -36,8 +40,5 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
-
 
 module.exports = router;
