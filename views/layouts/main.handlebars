@@ -33,6 +33,7 @@
         Home
       </a>
       {{#if loggedIn}}
+      <a href="/profile/{{userId}}">Profile</a>
         <button id="logout" class="btn-no-style">
           Logout
         </button>
@@ -43,11 +44,6 @@
       {{/if}}
     </nav>
     <main>
-      <aside>
-        <h2>
-          Shannon Test!
-        </h2>
-      </aside>
       {{! <div class=""> }}
       {{{body}}}
       {{! </div> }}
@@ -62,7 +58,7 @@
       id="chat-toggle"
       class="btn btn-primary"
       type="button"
-      
+      data-id={{userId}}
       data-bs-toggle="collapse"
       data-bs-target="#chatbox"
       aria-expanded="false"

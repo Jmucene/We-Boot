@@ -10,8 +10,8 @@ const pusher = new Pusher({
   encrypted: true,
 });
 
-router.get("/:partnerId", async (req, res) => { 
-  const partnerId = Number(req.params.partnerId)
+router.get("/:partnerId", async (req, res) => {
+  const partnerId = Number(req.params.partnerId);
   const userId = req.session.userId;
   console.log("partnerId", partnerId, "userId", userId);
   const chat = await Chat.findAll({
@@ -20,35 +20,47 @@ router.get("/:partnerId", async (req, res) => {
       partner_id: partnerId,
     },
   });
-  console.log('chat', chat);
   res.json(chat);
-})
+});
 
-
-router.post('/:id', (req, res) => { 
-  const id = req.params.id;
-  const {chat, partnerId} = req.body
-  console.log('chat', chat, 'id', id)
-  
-  // pusher.trigger('We-Boot', `chat-${id}`, chat)
-  res.send(chat)
-})
-
-router.put("/:partnerId", async (req, res) => {
+router.post("/:partnerId", async (req, res) => {
   const userId = req.session.userId;
-  const { chat, partnerId } = req.body;
-
-  console.log("chat", chat.length, "userId", userId, "partnerId", partnerId);
-  Chat.update(chat, { where: { user_id: userId, partner_id: partnerId } });
-  const newChat = await Chat.findAll({
+  const { chat, partnerId, message, socketId, push } = req.body;
+  console.log("chat", typeof chat);
+  console.log("userId", userId, "partnerId", partnerId, 'push', push);
+  const oldChat = await Chat.findAll({
     where: {
       user_id: userId,
       partner_id: partnerId,
     },
   });
-  console.log("newChat", newChat);
+  console.log("oldChat", oldChat.length);
+  if (oldChat.length === 0) {
+    console.log('creating chat')
+    const newChat = await Chat.create({
+      user_id: userId,
+      partner_id: partnerId,
+      chat,
+    });
+  } else {
+    Chat.update(
+      { chat },
+      { where: { user_id: userId, partner_id: partnerId } }
+    );
+  }
+  if (push) {
+    pusher.trigger(
+      "We-Boot",
+      `chat-${partnerId}`,
+      {
+        userId: partnerId,
+        partnerId: userId,
+        message,
+      },
+      { socketId }
+    )
+  }
   res.json(chat);
 });
- 
 
 module.exports = router;
