@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
       order: [["name", "ASC"]],
     });
 
-    githubList = await gitRequest.homepageList(10);
+    githubList = await gitRequest.homepageList(4);
     githubList = { list: githubList };
     console.log("userData", userData);
     req.session.save(() => {

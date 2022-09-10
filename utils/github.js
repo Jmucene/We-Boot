@@ -35,7 +35,7 @@ async function homepageList(length) {
 
     if (!chosenUsers.includes(randomUser.username)) {
       chosenUsers.push(randomUser.username);
-      a = await githubRequest(randomUser.username, 5);
+      a = await githubRequest(randomUser.username, 10);
       if (a.urls) {
         for (let j = 0; j < a.urls.length; ) {
           if (!final.includes(a.urls[j])) {
