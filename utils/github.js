@@ -2,8 +2,8 @@ const { Octokit } = require("@octokit/rest");
 require("dotenv").config();
 
 const octokit = new Octokit({
-  auth: process.env.GitHub_Key,
-  //auth: process.env.Backup_GitHub_Key,
+  //auth: process.env.GitHub_Key,
+  auth: process.env.Backup_GitHub_Key,
 });
 
 //our rate limit for these requests with octokit is either 1,000/hour or 5,000/hour, I'm honestly not sure
@@ -21,6 +21,7 @@ let hardcodedCringe = [
   { name: "Derek Hoye", username: "DLHoye" },
   { name: "Justin Thon", username: "Limpbrick" },
   { name: "Doug Schulte", username: "dkschulte" },
+  { name: "Grady Peck", username: "GradyPeck" },
 ];
 
 function getRandomInt(max) {
