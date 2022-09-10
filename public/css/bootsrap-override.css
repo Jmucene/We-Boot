@@ -45,6 +45,16 @@ main {
   text-align: center;
 }
 
+ul {
+  text-align:left;
+  list-style-type:'-';
+}
+
+li {
+  color: var(--light);
+  padding: 7px 10px
+}
+
 #main-nav a:hover {
   background-color: #168c9c;
 }
@@ -79,10 +89,7 @@ aside {
   color:#26C6DA;
 }
 
-.form-floating > label {
-  padding: 0;
-  margin-left: 100px;
-}
+
 
 /* LAYOUT */
  /* .row {
