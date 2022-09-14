@@ -7,7 +7,6 @@ const octokit = new Octokit({
 });
 
 //our rate limit for these requests with octokit is either 1,000/hour or 5,000/hour, I'm honestly not sure
-//Get a backup API key as well for presentation day
 
 let hardcodedCringe = [
   { name: "Casey Chartier", username: "MustyBraid" },
@@ -30,7 +29,8 @@ function getRandomInt(max) {
 
 async function homepageList(length) {
   let final = [];
-  let chosenUsers = [];
+  let urls = []; //To track already linked urls
+  let chosenUsers = []; //to track already chosen users
   for (let i = 0; i < length; ) {
     let randomUser = hardcodedCringe[getRandomInt(hardcodedCringe.length)];
 
@@ -39,7 +39,8 @@ async function homepageList(length) {
       a = await githubRequest(randomUser.username, 10);
       if (a.urls) {
         for (let j = 0; j < a.urls.length; ) {
-          if (!final.includes(a.urls[j])) {
+          if (!urls.includes(a.urls[j])) {
+            urls.push(a.urls[j]);
             final.push(
               `${randomUser.name} recently updated a project at ${a.urls[j]}`
             );
@@ -54,6 +55,8 @@ async function homepageList(length) {
   }
   return final;
 }
+
+//async function ProfileList(user) {}
 
 function contributionFilter(event) {
   if (
