@@ -98,6 +98,5 @@ const githubRequest = async (username, number) => {
   //console.log(publicEvents); //note that this is a length 2 array defined in uniqueFilter
   return formattedEvents;
 };
-//TODO: uncomment
-// homepageList(5);
+homepageList(5);
 module.exports = { githubRequest, homepageList };
