@@ -6,7 +6,6 @@ const fs = require("fs");
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   userData = await User.findByPk(id, { raw: true });
-  console.log(req.session.userId);
   //githubList = await gitRequest(req.session.userId, 30);
   res.render("profile", {
     userData,

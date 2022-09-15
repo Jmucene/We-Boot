@@ -36,14 +36,12 @@ const disableEdit = () => {
 
 const profileEditHandler = async (event) => {
   event.preventDefault();
-  console.log("event", event);
   name = nameEl.val().trim();
   email = emailEl.val().trim();
   github = githubEl.val().trim();
   slack = slackEl.val().trim();
   bio = bioEl.val().trim();
   const id = window.location.pathname.split("/")[2];
-  console.log(id);
   const response = await fetch(`/api/users/${id}`, {
     method: "PUT",
     body: JSON.stringify({ name, email, github, slack, bio }),
@@ -55,7 +53,6 @@ const profileEditHandler = async (event) => {
 
 const enableEditHandler = async (event) => {
   event.preventDefault();
-  console.log("event", event);
   name = nameEl.val().trim();
   email = emailEl.val().trim();
   github = githubEl.val().trim();
@@ -88,7 +85,6 @@ const previewProfileImage = () => {
       //set the image data as source
       imageEl.attr("src", e.target.result);
       newImg = { data: e.target.result, type };
-      console.log("newImg", newImg);
     };
     reader.readAsDataURL(imageFile);
     uploadBtns.prop("hidden", false);
@@ -99,9 +95,7 @@ const profilePicHandler = async (event) => {
   event.preventDefault();
   const action = event.target.textContent;
   uploadBtns.prop("hidden", true);
-  console.log("action", action);
   if (action === "Cancel") {
-    console.log("originalImg", originalImg);
     imageEl.attr("src", originalImg);
     uploadBtns.prop("hidden", true);
     uploadEl.replaceWith(uploadEl.val("").clone());
@@ -118,11 +112,8 @@ const profilePicHandler = async (event) => {
 
 const hoverIn = (event) => {
   const target = $(event.target);
-  console.log(target.data());
-  // console.log("hover");
   const profileId = Number(window.location.pathname.split("/")[2]);
   const userId = Number(target.data("loggedIn"));
-  console.log("profileId", profileId, "userId", userId);
   if (profileId === userId) {
     imageEl.addClass("prof-hover");
   }

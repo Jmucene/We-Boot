@@ -6,7 +6,6 @@ const fs = require("fs");
 
 router.get("/", async (req, res) => {
   const users = await User.findAll({ raw: true });
-  console.log("users", users);
   res.json(users);
 });
 

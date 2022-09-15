@@ -20,7 +20,6 @@ router.get("/", async (req, res) => {
     });
     githubList = await gitRequest.homepageList(8);
     githubList = { list: githubList };
-    console.log("userData", userData);
     req.session.save(() => {
       if (req.session.countVisit) {
         req.session.countVisit++;
