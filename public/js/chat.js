@@ -114,7 +114,7 @@ const showChat = async (e) => {
   });
   $(".card-body").empty();
   console.log(chatData);
-  chatData
+  chatData.chat
     ? $(".card-body").append(chatData.chat)
     : $(".card-body").append(`<p class="text-center">No messages yet</p>`);
   $("#send-message").data("partnerId", partnerId);
@@ -182,6 +182,9 @@ const changePartner = async (e) => {
       console.log("dont add");
       return;
     }
+    if ($(".card-body").text() === "No messages yet") {
+      $(".card-body").empty();
+    }
     $(".card-body").append(
       `<div class="d-flex flex-row justify-content-start">
         <img
@@ -221,11 +224,13 @@ const changePartner = async (e) => {
     },
   });
   const chatData = await res.json();
-  $('.card-body').html() === "No messages yet" ? $('.card-body').empty() : null;
-  chatData
+  $('.card-body').empty()
+  console.log('chatData', chatData)
+  chatData.chat
     ? $(".card-body").append(chatData.chat)
     : $(".card-body").append(`<p class="text-center">No messages yet</p>`);
-  $("#send-message").data("partnerId", partnerId);
+  const sendMessage = document.getElementById("send-message");
+  sendMessage.setAttribute("data-partnerid", partnerId);
 };
 
 $(".dropdown-menu").on("click", "a", changePartner);
