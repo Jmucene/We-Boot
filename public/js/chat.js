@@ -49,6 +49,7 @@ const showChat = async (e) => {
     console.log("data", data);
     if (data.partnerId === userId) {
       console.log("socketId", pusher.connection.socket_id);
+
       console.log("dont add");
       return;
     }
@@ -129,6 +130,8 @@ const sendMessage = async (e) => {
   const sendMessage = document.getElementById("send-message");
   const partnerId = sendMessage.getAttribute("data-partnerid");
   const userId = window.location.pathname.split("/")[2];
+  const socketId = pusher.connection.socket_id;
+  console.log("socketId", socketId);
   console.log("partnerId send message", partnerId);
   // const userId =
   const message = $("#chat-message").val();
@@ -158,11 +161,12 @@ const sendMessage = async (e) => {
   updateScroll();
   $("#chat-message").val("");
   const chat = $(".card-body").html();
-  console.log("chat", chat);
+  // console.log("chat", chat);
   const push = true;
-  const res = await fetch(`/api/chat/${partnerId}`, {
+  console.log('socketId', socketId)
+  await fetch(`/api/chat/${partnerId}`, {
     method: "POST",
-    body: JSON.stringify({ chat, partnerId, message, push }),
+    body: JSON.stringify({ chat, partnerId, message, push, socketId }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -177,6 +181,7 @@ const changePartner = async (e) => {
   console.log("chatId", chatId);
   channel.bind(`chat-${chatId}`, function (data) {
     console.log("data", data);
+    console.log('partnerid:userId', data.partnerId, userId);
     if (data.partnerId === userId) {
       console.log("socketId", pusher.connection.socket_id);
       console.log("dont add");

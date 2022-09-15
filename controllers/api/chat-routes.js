@@ -30,8 +30,11 @@ router.get("/:partnerId", async (req, res) => {
 
 router.post("/:partnerId", async (req, res) => {
   const userId = req.session.userId;
-  const { chat, partnerId, message, push } = req.body;
+  console.log('req.body', req.body);
+  let { chat, partnerId, message, push, socketId } = req.body;
   const chatId = [userId, partnerId].sort().join('');
+  socketId = Number(socketId);
+  console.log('socketId', socketId);
   console.log("chat", typeof chat);
   console.log("userId", userId, "partnerId", partnerId, "push", push);
   const oldChat = await Chat.findOne({
@@ -40,7 +43,7 @@ router.post("/:partnerId", async (req, res) => {
       partner_id: partnerId,
     },
   });
-  console.log("oldChat", oldChat);
+  // console.log("oldChat", oldChat);
   if (!oldChat) {
     console.log("creating chat");
     const newChat = await Chat.create({
@@ -50,7 +53,7 @@ router.post("/:partnerId", async (req, res) => {
     },
       {returning: true}
     );
-    console.log("newChat", newChat);
+    // console.log("newChat", newChat);
   } else {
     console.log("updating chat");
     const updatedChat = await Chat.update(
@@ -58,7 +61,7 @@ router.post("/:partnerId", async (req, res) => {
       { where: { user_id: userId, partner_id: partnerId }, returning: true }
       
     );
-    console.log('updatedChat', updatedChat);
+    // console.log('updatedChat', updatedChat);
   }
   if (push) {
     pusher.trigger(
@@ -69,7 +72,7 @@ router.post("/:partnerId", async (req, res) => {
         partnerId: userId,
         message,
       },
-      // { socketId }
+      { socketId }
     );
   }
   res.json(chat);

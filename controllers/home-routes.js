@@ -18,7 +18,6 @@ router.get("/", async (req, res) => {
       attributes: { exclude: ["password"] },
       order: [["name", "ASC"]],
     });
-
     githubList = await gitRequest.homepageList(8);
     githubList = { list: githubList };
     console.log("userData", userData);
