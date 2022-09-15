@@ -11,56 +11,8 @@ let socketId = null;
 pusher.connection.bind("connected", () => {
   socketId = pusher.connection.socket_id;
 });
-channel.bind(`chat-${myId}`, async function (data) {
-  const { message, partnerId, userId } = data;
-  const res = await fetch(`/api/chat/${partnerId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  let chat = "";
-  const chatData = await res.json();
-  console.log("chatData", chatData);
-  if (chatData.length > 0) {
-    chat = chatData[0].chat;
-  }
-  console.log("chat", chat);
-  chat =
-    chat +
-    `<div class="d-flex flex-row justify-content-start">
-      <div>
-        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-          ${message}
-        </p>
-        <p
-          class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-start"
-        >
-          ${new Date().toLocaleTimeString()}
-        </p>
-      </div>
-      <img
-        src="/images/uploads/profile-1.jpg"
-        alt="avatar 1"
-        style="width: 45px; height: 100%;"
-      />
-    </div>`;
-  console.log("chat", chat);
-  const partner = $(".dropdown-item").find(`[data-id=${partnerId}]`);
-  partner.click();
-  $(".card-body").empty();
-  $(".card-body").append(chat);
-  updateScroll();
-  const push = false
-  chat = $(".card-body").html();
-  await fetch(`/api/chat/${partnerId}`, {
-    method: "POST",
-    body: JSON.stringify({ chat, partnerId, message, socketId, push }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-});
+console.log("socketId", socketId);
+channel.bind(`profile-${myId}`, async function (data) {});
 
 console.log("channel", channel);
 
@@ -69,19 +21,13 @@ const updateScroll = () => {
   chatBody.scrollTop(chatBody.prop("scrollHeight"));
 };
 
+// const updatePartnerId = () => { }
+
 const showChat = async (e) => {
   e.preventDefault();
   const tgt = $(e.target);
   const userId = tgt.data("id");
-  const partnerId = $("#send-message").data("partnerid");
-  console.log("userId", userId);
 
-  let channel = pusher.subscribe(`We-Boot`);
-  console.log("subscribed");
-  channel.bind(`chat-${userId}`, function (data) {
-    console.log("data", data);
-  });
-  console.log("channel", channel);
   const res = await fetch(`/api/users`, {
     method: "GET",
     headers: {
@@ -89,13 +35,27 @@ const showChat = async (e) => {
     },
   });
   let users = await res.json();
+
   users = users.filter((user) => user.id !== userId);
-  $(".dropdown-menu").empty();
-  users.forEach((user) => {
-    $(".dropdown-menu").append(
-      `<a class="dropdown-item" data-id=${user.id} href="#">${user.name}</a>`
-    );
+  const partnerId = $("#send-message").data("partnerid") || users[0].id;
+  console.log("partnerId", partnerId);
+
+  console.log("userId", userId);
+  const chatId = [userId, partnerId].sort().join("");
+  console.log("chatId", chatId);
+  let channel = pusher.subscribe(`We-Boot`);
+  console.log("subscribed");
+  channel.bind(`chat-${chatId}`, function (data) {
+    console.log("data", data);
+    if (data.partnerId === userId) {
+      return
+    }
+    
   });
+  console.log("channel", channel);
+  // $('#send-message').data("partnerid", partnerId);
+  const sendMessage = document.getElementById("send-message");
+  sendMessage.setAttribute("data-partnerid", partnerId);
 
   const response = await fetch(`/api/chat/${partnerId}`, {
     method: "GET",
@@ -104,23 +64,43 @@ const showChat = async (e) => {
     },
   });
   const chatData = await response.json();
-
-  console.log("chat", chatData[0].chat);
-
+  const name = chatData.partnerName;
+  $("#chat-users").text(name);
+  // console.log("chatData", chatData);
+  // console.log("chat", chatData[0].chat);
+  if (users.length === 1) {
+    users = [{ id: 0, name: "No other users" }];
+  }
+  console.log("users", users);
+  $(".dropdown-menu").empty();
+  users.forEach((user) => {
+    console.log("user", user);
+    $(".dropdown-menu").append(
+      `<a class="dropdown-item" data-id=${user.id} href="#">${user.name}</a>`
+    );
+  });
   $(".card-body").empty();
-  $(".card-body").append(chatData[0].chat);
+  chatData.length
+    ? $(".card-body").append(chatData.chat)
+    : $(".card-body").append(`<p class="text-center">No messages yet</p>`);
   $("#send-message").data("partnerId", partnerId);
   updateScroll();
 };
 
 const sendMessage = async (e) => {
   e.preventDefault();
+  console.log("e.target", e.target);
   const tgt = $(e.target);
-  const partnerId = tgt.data("partnerid");
-  console.log("partnerId", partnerId);
+  // console.log("data", tgt.data());
+  const sendMessage = document.getElementById("send-message");
+  const partnerId = sendMessage.getAttribute("data-partnerid");  
+  console.log("partnerId send message", partnerId);
   // const userId =
   const message = $("#chat-message").val();
   console.log("message", message);
+  if ($('.card-body').text() === "No messages yet") {
+    $('.card-body').empty();
+  }
   $(".card-body").append(
     `<div class="d-flex flex-row justify-content-end">
       <div>
@@ -144,7 +124,7 @@ const sendMessage = async (e) => {
   $("#chat-message").val("");
   const chat = $(".card-body").html();
   console.log("chat", chat);
-  const push = true
+  const push = true;
   const res = await fetch(`/api/chat/${partnerId}`, {
     method: "POST",
     body: JSON.stringify({ chat, partnerId, message, push }),
@@ -156,6 +136,8 @@ const sendMessage = async (e) => {
 
 const changePartner = async (e) => {
   const partnerId = $(e.target).data("id");
+  const name = $(e.target).text();
+  $("#chat-users").text(name);
   console.log("partnerId", partnerId);
   const res = await fetch(`/api/chat/${partnerId}`, {
     method: "GET",
@@ -164,10 +146,11 @@ const changePartner = async (e) => {
     },
   });
   const chatData = await res.json();
-  console.log("chat", chatData[0].chat);
 
   $(".card-body").empty();
-  $(".card-body").append(chatData[0].chat);
+  chatData.length
+    ? $(".card-body").append(chatData[0].chat)
+    : $(".card-body").append(`<p class="text-center">No messages yet</p>`);
   $("#send-message").data("partnerId", partnerId);
 };
 
