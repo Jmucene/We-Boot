@@ -182,7 +182,7 @@ const changePartner = async (e) => {
   channel.bind(`chat-${chatId}`, function (data) {
     console.log("data", data);
     console.log('partnerid:userId', data.partnerId, userId);
-    if (data.partnerId === userId) {
+    if (Number(data.partnerId) === Number(userId)) {
       console.log("socketId", pusher.connection.socket_id);
       console.log("dont add");
       return;
