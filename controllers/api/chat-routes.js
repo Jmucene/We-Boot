@@ -34,25 +34,31 @@ router.post("/:partnerId", async (req, res) => {
   const chatId = [userId, partnerId].sort().join('');
   console.log("chat", typeof chat);
   console.log("userId", userId, "partnerId", partnerId, "push", push);
-  const oldChat = await Chat.findAll({
+  const oldChat = await Chat.findOne({
     where: {
       user_id: userId,
       partner_id: partnerId,
     },
   });
-  console.log("oldChat", oldChat.length);
-  if (oldChat.length === 0) {
+  console.log("oldChat", oldChat);
+  if (!oldChat) {
     console.log("creating chat");
     const newChat = await Chat.create({
       user_id: userId,
       partner_id: partnerId,
       chat,
-    });
-  } else {
-    Chat.update(
-      { chat },
-      { where: { user_id: userId, partner_id: partnerId } }
+    },
+      {returning: true}
     );
+    console.log("newChat", newChat);
+  } else {
+    console.log("updating chat");
+    const updatedChat = await Chat.update(
+      { chat },
+      { where: { user_id: userId, partner_id: partnerId }, returning: true }
+      
+    );
+    console.log('updatedChat', updatedChat);
   }
   if (push) {
     pusher.trigger(

@@ -19,8 +19,8 @@ router.get("/", async (req, res) => {
       order: [["name", "ASC"]],
     });
 
-    githubList = await gitRequest.homepageList(8);
-    githubList = { list: githubList };
+    // githubList = await gitRequest.homepageList(8);
+    // githubList = { list: githubList };
     console.log("userData", userData);
     req.session.save(() => {
       if (req.session.countVisit) {
@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
         userId: req.session.userId,
         loggedIn: req.session.loggedIn,
         countVisit: req.session.countVisit,
-        githubList,
+        // githubList,
       });
     });
   } catch (err) {
