@@ -11,6 +11,11 @@ Stay Connected with your fellow alumni!
   - [Table of Contents](#table-of-contents)
   - [Link](#link)
   - [Usage](#usage)
+  - [Images](#images)
+    - [Homepage](#homepage)
+    - [Profile Page](#profile-page)
+    - [Search for Users](#search-for-users)
+    - [Chat with Users](#chat-with-users)
   - [Questions](#questions)
   
 ## Link
@@ -21,19 +26,24 @@ Stay Connected with your fellow alumni!
 To use this appliction: 
   1. Click on the link above to go to the live app
 
-<!-- ## Images
+## Images
 
-### Save Note
+### Homepage
 
-![](assets/images/save-note.png)
+![](public/images/homepage.png)
 
-### Retrieve Note
+### Profile Page
 
-![](assets/images/retrieve-note.png)
+![](public/images/profile.png)
 
-### Delete Note
+### Search for Users
 
-![](assets/images/delete-note.png) -->
+![](public/images/search.png)
+
+### Chat with Users
+
+![](public/images/chat.png)
+
 
 ## Questions
 

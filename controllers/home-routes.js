@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
         userData,
         userId: req.session.userId,
         loggedIn: req.session.loggedIn,
-        countVisit: req.session.countVisit,
         githubList,
       });
     });
@@ -40,7 +39,10 @@ router.get("/", async (req, res) => {
   }
 });
 router.get("/search", async (req, res) => {
-  res.render("search");
+  res.render("search", {
+    userId: req.session.userId,
+    loggedIn: req.session.loggedIn,
+  });
 });
 router.get("/searchName/:name", (req, res) => {
   // Get one alum from the alum table
