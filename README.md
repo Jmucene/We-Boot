@@ -47,6 +47,6 @@ To use this appliction:
 
 ## Questions
 
-[My GitHub Profile](https://github.com/Deejerz88)
+[My GitHub Profile](https://github.com/Jmucene)
 
-If you have any questions about my project, please contact me at [djmcmillan93@gmail.com](mailto:djmcmillan93@gmail.com).
+If you have any questions about my project, please contact me at [skysthelimit0594@gmail.com](mailto:skysthelimit0594@gmail.com).
